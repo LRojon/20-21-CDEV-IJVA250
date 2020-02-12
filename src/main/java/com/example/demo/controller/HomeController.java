@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Article;
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.service.impl.ClientServiceImpl;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.FactureService;
@@ -10,6 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -42,5 +48,35 @@ public class HomeController {
         modelAndView.addObject("factures", factures);
 
         return modelAndView;
+    }
+
+    @GetMapping("/articles/csv")
+    public void articleCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachement; filename=\"export-articles.csv\"");
+        PrintWriter writer = response.getWriter();
+
+        List<Article> articles = articleService.findAll();
+
+        writer.println("Id;Libelle;Prix");
+        for (Article article : articles)
+        {
+            writer.println(article.getId() + ";" + article.getLibelle() + ";" + article.getPrix());
+        }
+    }
+
+    @GetMapping("/clients/csv")
+    public void clientCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachement; filename=\"export-clients.csv\"");
+        PrintWriter writer = response.getWriter();
+
+        List<Client> clients = clientServiceImpl.findAllClients();
+
+        writer.println("Nom;Prénom;Age");
+        for (Client client : clients)
+        {
+            writer.println(client.getNom() + ";" + client.getPrenom() + ";" + (Integer)(LocalDate.now().getYear() - client.getDateNaissance().getYear()));
+        }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ArticleServiceImpl implements ArticleService {
+public class                                                                                                                                                                                                                        ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository articleRepository;
 

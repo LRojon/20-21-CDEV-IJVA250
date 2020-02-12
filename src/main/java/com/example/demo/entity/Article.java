@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Entity représentant un article.
  */
 @Entity
-public class Article {
+public class                                 Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

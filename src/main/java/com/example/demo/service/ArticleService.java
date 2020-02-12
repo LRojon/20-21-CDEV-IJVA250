@@ -4,6 +4,6 @@ import com.example.demo.entity.Article;
 
 import java.util.List;
 
-public interface ArticleService {
+public interface                                            ArticleService {
     List<Article> findAll();
 }
